@@ -29,7 +29,8 @@ else:
     elif fileSuffix in ["gro"]:
         fileFlag = "gro"
     else:
-        print("File type '%s' is not supported" % fileSuffix)
+        print("File with suffix '.%s' is not supported" % fileSuffix)
+        sys.exit()
 
 eNumDict = {
   'H': '1',
