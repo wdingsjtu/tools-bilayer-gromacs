@@ -5,7 +5,7 @@
 #          "gmx_density" for calculating the electron density.
 #
 # Notes: A file which contains all the "atomnames" needs to be provided, which 
-#        can be one of the following:   
+#        can be one of the following:
 #        * forcefield data file (.top/.itp)
 #          -> Don't forget to add OW, HW1, HW2 for water!
 #        * topology file (.gro)
@@ -15,7 +15,7 @@
 # Created: 2016/Mar/14
 
 
-from __future__ import print_function 
+from __future__ import print_function
 import sys
 
 
