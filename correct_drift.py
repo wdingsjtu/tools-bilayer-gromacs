@@ -19,7 +19,7 @@ def gate_keeping():
         sys.exit()
 
 def main(inFileName):
-    with open(inFileName, 'r') as inFile:
+    with open(inFileName, 'rt') as inFile:
         lines = inFile.readlines()
     
     coords = []
@@ -32,12 +32,29 @@ def main(inFileName):
             coords.append(words[0])
             values.append(float(words[1]))
     
-    deltaValue = (values[-1] - values[0]) / (len(values) - 1)
-    
+    deltaValue = (values[-1] - values[0]) / (len(values) - 1) 
     for i, value in enumerate(values):
-        newValue = value - deltaValue * i
-        print(coords[i], newValue)
-    
+        values[i] = value - deltaValue * i
+
+    values = align_to_zero(values)
+    print_data(coords, values)
+
+def align_to_zero(valuelist):
+    '''
+    Set the minimum level of the profile as zero, and vertically shift the 
+    whole profile
+
+    type_valuelist: float list
+    rtype: float list
+    '''
+    minValue = min(valuelist)
+    newValuelist = [value - minValue for value in valuelist]
+    return newValuelist
+
+def print_data(coordlist, valuelist):
+    for coord, value in zip(coordlist, valuelist):
+        print(coord, value)
+
 if __name__ == "__main__":
     gate_keeping()
     main(sys.argv[1])
