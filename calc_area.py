@@ -11,7 +11,6 @@
 
 from __future__ import print_function
 import sys
-import re 
 
 
 def gate_keeping():
@@ -33,12 +32,12 @@ def main():
         if line[0] in ['#', '@',]:
             continue
         words = line.split()
-        time.append(words[0])
+        time.append(float(words[0]))
         xyarea.append(float(words[1]) * float(words[2]) * 100)
    
     print_captions()
     for t, A in zip(time, xyarea):    
-        print(t, A, A/(nlipids/2))
+        print("%s %.8f %8f" %(t, A, A/(nlipids/2)))
 
 def print_captions():
     print("# Time XY-Area AreaPerLipid")

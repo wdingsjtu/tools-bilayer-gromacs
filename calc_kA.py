@@ -2,11 +2,14 @@
 #
 # Purpose: Calculate the Area-Compressibility from a GROMACS bilayer 
 #          simulation. 
-# Note: 1. A prerequisite in prior is to calculate the XY-Area time series 
-#          using the "calc_area.py"
+# Note: 1. A prerequisite is to calculate the XY-Area time series using the
+#          "calc_area.py" in prior. 
 #       2. Input is in "nm", output in "".
 #       3. Formula:
 #           kA = kB*T*<A> / var(A)
+#       4. Results are accumulated results along the time series, intended 
+#          to show the convergence trend, thus they are not independent. 
+#          So it's NOT correct to perform average over these values.
 # Syntax: calc_kA.py *.xvg temperature > kA.xvg
 # Created: 2016/May/02
 #
@@ -25,7 +28,9 @@ def gate_keeping():
 
 def print_captions():
     print("# Time kA")
-    print("# ps   mN/m(dyn/cm)")
+    print("# ps   mN/m (dyn/cm)")
+    print("# NOTE: Values are accumulated results, thus not independent.")
+    print("#       So it's NOT correct to perform average over these values.")
 
 def main(args):
 
