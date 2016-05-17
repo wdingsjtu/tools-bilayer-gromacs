@@ -30,10 +30,8 @@ def print_captions(filenames):
 def main(args):
     '''
     '''
-    #TODO: use dictionary to speed-up.
     #TODO: calculate STD.
-    coords = []
-    values = []
+    valueDict = {}
     for inFile in args:
         with open(inFile) as f:
             lines = f.readlines()
@@ -42,15 +40,14 @@ def main(args):
             if line[0] in ['#', '@',]:
                 continue
             words = line.split()
-            if words[0] not in coords: 
-                coords.append(words[0])
-                values.append([float(words[1])])
+            if words[0] not in valueDict: 
+                valueDict[words[0]] = [float(words[1])]
             else:
-                index = coords.index(words[0])
-                values[index].append(float(words[1]))
+                valueDict[words[0]].append(float(words[1]))
 
     print_captions(' '.join(args))
-    for coord, vArray in zip(coords, values):
+    for coord in sorted(valueDict, key=lambda x: float(x)):
+        vArray = valueDict[coord]
         print(coord, sum(vArray)/len(vArray))
 
 if __name__ == '__main__':
