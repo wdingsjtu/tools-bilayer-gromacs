@@ -23,7 +23,7 @@ def main():
     coords = []
     values = []
     for line in lines:
-        if line[0] in ['#',]:
+        if line[0] in ['#','@']:
             print(line, end='')
             continue
         words = line.split()

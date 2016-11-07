@@ -36,7 +36,7 @@ def print_captions():
 def transfer_unit__J_per_nm(value):
     '''
     type_value: float
-    r_type: float    
+    r_type: float
     '''
     bar_nm2__in__J_per_nm = 1.0e-22 # atm*A^2 = 1.01325e-24 J/nm
     bar_nm3__in__J = 1.0e-22 # atm*A^3 = 1.01325e-25 J
@@ -53,7 +53,7 @@ def main(args):
     print("# Calculated from %s" % inFile)
     with open(inFile) as f:
         lines = f.readlines()
-        
+
     coords_neg = []
     lpp_neg = []
     coords_pos = []
@@ -63,14 +63,14 @@ def main(args):
             continue
         words = line.split()
         coord = float(words[0])
-        if coord < 0.0: 
+        if coord < 0.0:
             coords_neg.append(coord)
             lpp_neg.append(float(words[1]))
         else:
             coords_pos.append(coord)
             lpp_pos.append(float(words[1]))
-    delta_neg = [x for x in np.diff(coords_neg)] + [abs(coords_neg[-1])] 
-    delta_pos = [coords_pos[0]] + [x for x in np.diff(coords_pos)] 
+    delta_neg = [x for x in np.diff(coords_neg)] + [abs(coords_neg[-1])]
+    delta_pos = [coords_pos[0]] + [x for x in np.diff(coords_pos)]
 
     screen_msg = ''
 
@@ -83,11 +83,11 @@ def main(args):
         tau2_sum += z**2 * p * d
         tau1_neg.append(tau1_sum)
         tau2_neg.append(tau2_sum)
-    screen_msg += ("# Negtive monolayer results: \n"
-                   "# %s kBT/nm, %s\n"#kBT\n" 
-                   "# %s J/nm\n"
-                   %(transfer_unit(tau1_sum), tau2_sum,
-                   transfer_unit__J_per_nm(tau1_sum) 
+    screen_msg += ("## Negative monolayer results: \n"
+                   "# tau1 = %s kBT/nm = %s J/nm\n"
+                   "# tau2 = %s kBT\n"
+                   %(transfer_unit(tau1_sum), transfer_unit__J_per_nm(tau1_sum),
+                     tau2_sum,
                    )
     )
 
@@ -100,24 +100,24 @@ def main(args):
         tau2_sum += z**2 * p * d
         tau1_pos.append(tau1_sum)
         tau2_pos.append(tau2_sum)
-    screen_msg += ("# Positive monolayer results: \n"
-                   "# %s kBT/nm, %s\n"# kBT\n" 
-                   "# %s J/nm\n"
-                   %(transfer_unit(tau1_sum), tau2_sum,
-                   transfer_unit__J_per_nm(tau1_sum) 
+    screen_msg += ("## Positive monolayer results: \n"
+                   "# tau1 = %s kBT/nm = %s J/nm\n"
+                   "# tau2 = %s kBT\n"
+                   %(transfer_unit(tau1_sum), transfer_unit__J_per_nm(tau1_sum),
+                     tau2_sum,
                    )
     )
- 
+
     print_captions()
     print(screen_msg)
     tau1_neg.reverse()
     tau2_neg.reverse()
-    for z, t1, t2 in zip(coords_neg + coords_pos, 
-                         tau1_neg + tau1_pos, 
+    for z, t1, t2 in zip(coords_neg + coords_pos,
+                         tau1_neg + tau1_pos,
                          tau2_neg + tau2_pos):
         print(z, t1, t2)
     print(screen_msg, file=sys.stderr)
 
 if __name__ == '__main__':
-    arguments = gate_keeping()    
+    arguments = gate_keeping()
     main(arguments)
